@@ -1,0 +1,15 @@
+{
+  "name": "messenger-exam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "concurrently \"cd server && yarn run start:dev\" \"cd client && yarn run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.0.2"
+  }
+}
