@@ -1,7 +1,16 @@
 import logo from './logo.svg';
+import io from 'socket.io-client';
 import './App.css';
 
 function App() {
+  const socket = io.connect('http://localhost:8000');
+
+  socket.emit('message', 'хуй');
+
+  socket.on('message', (data) => {
+    console.log(data);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
