@@ -1,7 +1,7 @@
 const testController = {
   messages: (req, res) => {
-    req.io.emit('message', 'хуй');
-    return res.send('test');
+    req.io.emit('message', req.body.message);
+    return res.send(req.body.message  );
   },
 };
 
