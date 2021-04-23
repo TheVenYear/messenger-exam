@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import testController from '../controllers/test.controller';
+import authenticate from '../middlewares/authenticate.middleware';
 
 const testRouter = Router();
 
-testRouter.post('/', testController.messages);
+testRouter.post('/', authenticate, testController.messages);
 
 export default testRouter;
