@@ -4,8 +4,9 @@ const authValidation = {
   user: [
     body('email')
       .exists()
-      .withMessage('email field is required')
       .bail()
+      .notEmpty()
+      .withMessage('email field is required')
       .isEmail()
       .withMessage('email is incorrect'),
     body('password')

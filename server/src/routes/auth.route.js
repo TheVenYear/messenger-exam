@@ -14,7 +14,7 @@ authRouter.post(
   authController.signUp
 );
 
-authRouter.post(REFRESH_URL, authController.refresh);
+authRouter.get(REFRESH_URL, authController.refresh);
 
 authRouter.post(
   '/sign-in',
