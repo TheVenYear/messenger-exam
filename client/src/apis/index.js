@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import store from '../store';
+import { setUser } from '../store/reducers/app.reducer';
+
 export const CONFIG = {
   baseURL: '/api/',
   validateStatus: (status) => status < 500,
@@ -27,12 +30,14 @@ export const CONFIG = {
 
 const instance = axios.create(CONFIG);
 
-instance.interceptors.response.use(async (response) => {
-  if (response.status === 401) {
-    await axios.request({ ...CONFIG, url: 'auth/refresh', method: 'GET' });
-    return await axios.request(response.config);
-  }
-  return response;
-});
+export const setInterceptor = (dispatch) => {
+  instance.interceptors.response.use(async (response) => {
+    store.dispatch(setUser(null));
+    // if (response.status === 401) {
+    //   return await axios.request(response.config);
+    // }
+    return response;
+  });
+};
 
 export default instance;

@@ -1,4 +1,4 @@
-import { refresh } from '../../apis/auth.api';
+import { me } from '../../apis/auth.api';
 
 const SET_USER = 'app/user/SET';
 const SET_IS_INITIALIZED = 'app/isInitialized/SET';
@@ -29,7 +29,7 @@ const setIsInitialized = (payload) => ({
 });
 
 export const initializeApp = () => async (dispatch) => {
-  const response = await refresh();
+  const response = await me();
   dispatch(setIsInitialized(true));
   if (!response.data) {
     return;

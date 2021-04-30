@@ -72,6 +72,10 @@ const authController = {
         .send({ data: null, errors: [{ global: error.message }] });
     }
   },
+
+  me: async (req, res) => {
+    res.send(req.user);
+  },
 };
 
 export default authController;
