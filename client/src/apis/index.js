@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-import store from '../store';
 import { setUser } from '../store/reducers/app.reducer';
 
 export const CONFIG = {
@@ -16,11 +15,13 @@ export const CONFIG = {
 
     transformed.errors.forEach((error) => {
       for (const key in error) {
-        if (!newData.errors[key]) {
-          newData.errors[key] = [];
-        }
+        if (newData.errors.hasOwnProperty(key) && error.hasOwnProperty(key)) {
+          if (!newData.errors[key]) {
+            newData.errors[key] = [];
+          }
 
-        newData.errors[key].push(error[key]);
+          newData.errors[key].push(error[key]);
+        }
       }
     });
 
@@ -32,10 +33,21 @@ const instance = axios.create(CONFIG);
 
 export const setInterceptor = (dispatch) => {
   instance.interceptors.response.use(async (response) => {
-    store.dispatch(setUser(null));
-    // if (response.status === 401) {
-    //   return await axios.request(response.config);
-    // }
+    if (response.status === 401) {
+      const refreshResponse = await axios.request({
+        ...CONFIG,
+        url: 'auth/refresh',
+        method: 'GET',
+      });
+
+      if (refreshResponse.status === 401) {
+        dispatch(setUser(null));
+        return response;
+      }
+
+      return await axios.request(response.config);
+    }
+
     return response;
   });
 };

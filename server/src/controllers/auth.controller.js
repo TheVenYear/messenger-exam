@@ -46,7 +46,7 @@ const authController = {
         .send({ data: user, errors: [] });
     } catch (error) {
       return res
-        .status(StatusCodes.UNAUTHORIZED)
+        .status(StatusCodes.BAD_REQUEST)
         .send({ data: null, errors: [{ global: error.message }] });
     }
   },
@@ -74,7 +74,7 @@ const authController = {
   },
 
   me: async (req, res) => {
-    res.send(req.user);
+    res.send({ data: req.user, errors: [] });
   },
 };
 

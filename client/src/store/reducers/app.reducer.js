@@ -1,3 +1,4 @@
+import { setInterceptor } from '../../apis';
 import { me } from '../../apis/auth.api';
 
 const SET_USER = 'app/user/SET';
@@ -29,6 +30,7 @@ const setIsInitialized = (payload) => ({
 });
 
 export const initializeApp = () => async (dispatch) => {
+  setInterceptor(dispatch);
   const response = await me();
   dispatch(setIsInitialized(true));
   if (!response.data) {

@@ -5,27 +5,27 @@ import * as yup from 'yup';
 import { fetchSignIn } from '../../../../apis/auth.api';
 import { setUser } from '../../../../store/reducers/app.reducer';
 
-const LoginForm = (props) => {
+const LoginForm = () => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      email: 'afs',
-      password: 'dsadas',
+      email: 'admin@gmail.com',
+      password: 'adminadmin',
     },
     onSubmit: async (data, { setErrors }) => {
       const response = await fetchSignIn(data);
-      const errors = response.data.errors;
+      const errors = response.errors;
       setErrors(errors);
 
-      dispatch(setUser(response.data.data));
+      dispatch(setUser(response.data));
     },
-    // validationSchema: yup.object().shape({
-    //   email: yup
-    //     .string()
-    //     .required('Это поле обязательно')
-    //     .email('Неверный email'),
-    // }),
+    validationSchema: yup.object().shape({
+      email: yup
+        .string()
+        .required('Это поле обязательно')
+        .email('Неверный email'),
+    }),
   });
 
   useEffect(() => {
