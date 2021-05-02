@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import App from './components/App';
-import reportWebVitals from './reportWebVitals';
+import App from './components';
+import reportWebVitals from './report-web-vitals';
 import store from './store';
 
 ReactDOM.render(

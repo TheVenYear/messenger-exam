@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-import { setUser } from '../store/reducers/app.reducer';
-
-export const CONFIG = {
+const CONFIG = {
   baseURL: '/api/',
   validateStatus: (status) => status < 500,
   transformResponse: (response) => {
@@ -10,19 +8,16 @@ export const CONFIG = {
     if (transformed.errors.length < 1) {
       return transformed;
     }
-
-    let newData = { data: transformed.data, errors: {} };
+    const newData = { data: transformed.data, errors: {} };
 
     transformed.errors.forEach((error) => {
-      for (const key in error) {
-        if (newData.errors.hasOwnProperty(key) && error.hasOwnProperty(key)) {
-          if (!newData.errors[key]) {
-            newData.errors[key] = [];
-          }
-
-          newData.errors[key].push(error[key]);
+      Object.keys((key) => {
+        if (!newData.errors[key]) {
+          newData.errors[key] = [];
         }
-      }
+
+        newData.errors[key].push(error[key]);
+      });
     });
 
     return newData;
@@ -31,7 +26,7 @@ export const CONFIG = {
 
 const instance = axios.create(CONFIG);
 
-export const setInterceptor = (dispatch) => {
+export const setInterceptor = (setUser) => {
   instance.interceptors.response.use(async (response) => {
     if (response.status === 401) {
       const refreshResponse = await axios.request({
@@ -41,11 +36,11 @@ export const setInterceptor = (dispatch) => {
       });
 
       if (refreshResponse.status === 401) {
-        dispatch(setUser(null));
+        setUser(null);
         return response;
       }
 
-      return await axios.request(response.config);
+      return axios.request(response.config);
     }
 
     return response;

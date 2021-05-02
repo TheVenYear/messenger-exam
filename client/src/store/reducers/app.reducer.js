@@ -30,8 +30,10 @@ const setIsInitialized = (payload) => ({
 });
 
 export const initializeApp = () => async (dispatch) => {
-  setInterceptor(dispatch);
+  setInterceptor((user) => dispatch(setUser(user)));
+
   const response = await me();
+
   dispatch(setIsInitialized(true));
   if (!response.data) {
     return;
