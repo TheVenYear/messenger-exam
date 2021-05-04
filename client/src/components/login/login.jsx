@@ -7,46 +7,98 @@ import {
   FormGroup,
   TextField,
   Typography,
+  Link,
+  Box,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import { NavLink, Redirect } from 'react-router-dom';
+
+import { fetchSignIn } from '../../apis/auth.api';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../store/reducers/app.reducer';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.app.user);
+
   const form = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values, { setErrors }) => {
+      const response = await fetchSignIn(values);
+
+      if (!response.data) {
+        setErrors(response.errors);
+        console.log(response);
+        return;
+      }
+
+      dispatch(setUser(response.data));
     },
   });
-  return (
-    <Container maxWidth="sm">
+  return user ? (
+    <Redirect to="/" />
+  ) : (
+    <Container maxWidth="xs">
       <Typography variant="h5">Войдите в систему</Typography>
-      <FormGroup onSubmit={form.handleSubmit}>
-        <TextField
-          size="small"
-          margin="normal"
-          variant="outlined"
-          value={form.values.email}
-          onChange={form.handleChange}
-          label="Email"
-          name="email"
-        />
-        <TextField
-          margin="normal"
-          size="small"
-          variant="outlined"
-          value={form.values.password}
-          onChange={form.handleChange}
-          label="Пароль"
-          name="password"
-        />
-        <FormControl margin="normal">
-          <Button size="small" variant="contained" color="primary">
-            Отправить
-          </Button>
-        </FormControl>
-      </FormGroup>
+      <form onSubmit={form.handleSubmit}>
+        <FormGroup>
+          <TextField
+            error={!!form.errors.email}
+            helperText={form.errors.email}
+            size="small"
+            margin="normal"
+            variant="outlined"
+            value={form.values.email}
+            onChange={form.handleChange}
+            label="Email"
+            name="email"
+            type="email"
+          />
+          <TextField
+            error={!!form.errors.password}
+            helperText={form.errors.password}
+            margin="normal"
+            size="small"
+            variant="outlined"
+            value={form.values.password}
+            onChange={form.handleChange}
+            label="Пароль"
+            name="password"
+            type="password"
+          />
+          <FormControl margin="normal">
+            <Button
+              type="submit"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              Отправить
+            </Button>
+          </FormControl>
+          <FormControl>
+            <Box mx="auto">
+              <Link
+                style={{ textAlign: 'center' }}
+                component={NavLink}
+                to="/test"
+              >
+                Нет аккаунта? Создайте его прямо сейчас!
+              </Link>
+            </Box>
+          </FormControl>
+          {form.errors.global && (
+            <FormControl margin="normal">
+              <Alert variant="outlined" severity="error">
+                {form.errors.global}
+              </Alert>
+            </FormControl>
+          )}
+        </FormGroup>
+      </form>
     </Container>
   );
 };

@@ -11,7 +11,7 @@ const CONFIG = {
     const newData = { data: transformed.data, errors: {} };
 
     transformed.errors.forEach((error) => {
-      Object.keys((key) => {
+      Object.keys(error).forEach((key) => {
         if (!newData.errors[key]) {
           newData.errors[key] = [];
         }

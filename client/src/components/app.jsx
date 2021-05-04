@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { grey, orange } from '@material-ui/core/colors';
-import ChatIcon from '@material-ui/icons/Chat';
+
 import {
   createMuiTheme,
   ThemeProvider,
@@ -8,15 +8,25 @@ import {
   CssBaseline,
   Container,
   Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Icon,
+  CircularProgress,
+  Grid,
 } from '@material-ui/core';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './login/login';
+import Header from './header/header';
+import { initializeApp } from '../store/reducers/app.reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import PrivateRoute from './private-route/private-route';
+import Chat from './chat/chat';
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setTimeout(() => dispatch(initializeApp()), 2000);
+  }, []);
+
+  const isInitialized = useSelector((state) => state.app.isInitialized);
   const isDark = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = createMuiTheme({
     palette: {
@@ -40,24 +50,36 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="static" color="secondary">
-        <Container maxWidth="md">
-          <Toolbar>
-            <Icon>
-              <ChatIcon />
-            </Icon>
-
-            <Typography variant="h6">
-              <Box fontWeight={600}>Readeractive</Box>
-            </Typography>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      <Container maxWidth="md">
-        <Box mt={5}>
-          <Login />
-        </Box>
-      </Container>
+      <BrowserRouter>
+        {isInitialized ? (
+          <>
+            <Header user="dsa" />
+            <Container maxWidth="md">
+              <Box mt={5}>
+                <Switch>
+                  <Route path="/sign-in">
+                    <Login />
+                  </Route>
+                  <PrivateRoute path="/">
+                    <Chat />
+                  </PrivateRoute>
+                </Switch>
+              </Box>
+            </Container>
+          </>
+        ) : (
+          <Grid
+            container
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '80vh' }}
+          >
+            <Grid item>
+              <CircularProgress />
+            </Grid>
+          </Grid>
+        )}
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

@@ -9,7 +9,7 @@ const initialState = {
   isInitialized: false,
 };
 
-const authReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };
@@ -20,7 +20,7 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export default authReducer;
+export default appReducer;
 
 export const setUser = (payload) => ({ type: SET_USER, payload });
 
@@ -34,9 +34,11 @@ export const initializeApp = () => async (dispatch) => {
 
   const response = await me();
 
-  dispatch(setIsInitialized(true));
   if (!response.data) {
+    dispatch(setIsInitialized(true));
     return;
   }
+
   dispatch(setUser(response.data));
+  dispatch(setIsInitialized(true));
 };

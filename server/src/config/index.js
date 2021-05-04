@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { cleanEnv, num, str } from 'envalid';
 
 const config = cleanEnv(process.env, {
-  PORT: num({ default: 8000 }),
+  PORT: num({ default: 9000 }),
   DATABASE_URL: str(),
   REFRESH_SECRET: str(),
   REFRESH_EXPIRES_IN: str(),

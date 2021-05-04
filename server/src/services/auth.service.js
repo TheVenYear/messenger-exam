@@ -38,7 +38,11 @@ const authService = {
       throw new Error(MESSAGE);
     }
 
-    return user.toObject();
+    const result = user.toObject();
+
+    delete result.password;
+
+    return result;
   },
 
   createRefresh: async ({ _id, email, status }) => {
