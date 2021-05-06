@@ -1,44 +1,64 @@
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   Grid,
+  GridList,
+  GridListTile,
   TextField,
-  Typography,
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import React from 'react';
+import Message from '../message';
 
 const Chat = () => {
   return (
-    <Card style={{ minHeight: '100%', alignContent: 'space-between' }}>
-      <CardHeader title="Общий лайв чат" />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing style={{ justifyContent: 'space-between' }}>
-        <Grid container justify="flex-end" spacing={2}>
-          <Grid item>
-            <TextField variant="outlined" size="small" />
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              endIcon={<SendIcon />}
-            >
-              Отправить
-            </Button>
-          </Grid>
+    <Card>
+      <Grid
+        style={{ height: 'inherit' }}
+        container
+        direction="column"
+        justify="space-between"
+      >
+        <Grid item>
+          <CardHeader title="Вы вошли в комнату" />
         </Grid>
-      </CardActions>
+        <Grid item>
+          <CardContent>
+            <GridList style={{ height: '60vh' }} cols={1}>
+              {[...new Array(5)].map((el) => (
+                <GridListTile key={el}>
+                  <Message />
+                </GridListTile>
+              ))}
+            </GridList>
+          </CardContent>
+        </Grid>
+        <Grid item>
+          <CardActions
+            disableSpacing
+            style={{ justifyContent: 'space-between' }}
+          >
+            <Box display="flex" width="100%">
+              <TextField
+                fullWidth
+                variant="outlined"
+                size="small"
+                style={{ marginRight: '10px' }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                endIcon={<SendIcon />}
+              />
+            </Box>
+          </CardActions>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

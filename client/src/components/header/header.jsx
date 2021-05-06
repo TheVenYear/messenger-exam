@@ -12,7 +12,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { NavLink } from 'react-router-dom';
 
 const Header = () => (
-  <AppBar position="static" color="secondary">
+  <AppBar position="relative" color="secondary">
     <Container maxWidth="md">
       <Toolbar disableGutters variant="dense">
         <Icon>

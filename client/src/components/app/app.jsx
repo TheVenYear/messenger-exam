@@ -1,24 +1,18 @@
 import React, { useEffect } from 'react';
 import { grey, orange } from '@material-ui/core/colors';
-
 import {
   createMuiTheme,
   ThemeProvider,
   useMediaQuery,
   CssBaseline,
-  Container,
-  Box,
   CircularProgress,
   Grid,
 } from '@material-ui/core';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-import Login from './login/login';
-import Header from './header/header';
-import { initializeApp } from '../store/reducers/app.reducer';
+import { BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import PrivateRoute from './private-route/private-route';
-import Chat from './chat/chat';
+
+import { initializeApp } from '../../store/reducers/app.reducer';
+import Content from '../content';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,21 +46,7 @@ const App = () => {
       <CssBaseline />
       <BrowserRouter>
         {isInitialized ? (
-          <>
-            <Header user="dsa" />
-            <Container maxWidth="md">
-              <Box mt={5}>
-                <Switch>
-                  <Route path="/sign-in">
-                    <Login />
-                  </Route>
-                  <PrivateRoute path="/">
-                    <Chat />
-                  </PrivateRoute>
-                </Switch>
-              </Box>
-            </Container>
-          </>
+          <Content />
         ) : (
           <Grid
             container
