@@ -11,7 +11,7 @@ const authRouter = Router();
 
 authRouter.post(
   '/sign-up',
-  validate(authValidation.user),
+  validate(authValidation.signUpUser),
   authController.signUp
 );
 
@@ -23,6 +23,13 @@ authRouter.post(
   '/sign-in',
   validate(authValidation.user),
   authController.signIn(REFRESH_URL, LOGOUT_URL)
+);
+
+authRouter.post(
+  '/change-profile',
+  authenticate,
+  validate(authValidation.updateUser),
+  authController.changeProfile
 );
 
 authRouter.post(LOGOUT_URL, authController.logout);

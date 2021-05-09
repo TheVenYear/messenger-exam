@@ -3,10 +3,33 @@ import jwt from 'jsonwebtoken';
 import config from '../config';
 import RefreshToken from '../models/refresh-token.model';
 import User from '../models/user.model';
+import yadiskService from './yadisk.service';
+
+const changeUserData = async ({ email, password, nickname, phone, avatar }) => {
+  const salt = await bcrypt.genSalt(9);
+
+  let data = {
+    email,
+    password: password ? await bcrypt.hash(password, salt) : undefined,
+    profile: { nickname, phone },
+  };
+
+  if (avatar) {
+    data = {
+      ...data,
+      profile: {
+        ...data.profile,
+        avatar: await yadiskService.upload(avatar),
+      },
+    };
+  }
+
+  return data;
+};
 
 const authService = {
-  registerUser: async ({ email, password }) => {
-    const existingUser = await User.findOne({ email });
+  registerUser: async (values) => {
+    const existingUser = await User.findOne({ email: values.email });
 
     if (existingUser) {
       const error = new Error('email is already exists');
@@ -14,14 +37,26 @@ const authService = {
       throw error;
     }
 
-    const salt = await bcrypt.genSalt(9);
-    const encryptedPassword = await bcrypt.hash(password, salt);
+    const data = await changeUserData(values);
 
-    const user = new User({ email, password: encryptedPassword });
+    const user = new User(data);
 
     await user.save();
 
     return user.toObject();
+  },
+
+  changeUser: async (id, values) => {
+    console.log(values);
+    if (values.email && (await User.findOne({ email: values.email }))) {
+      const error = new Error('Такой email уже существует');
+      error.param = 'email';
+      throw error;
+    }
+    const data = await changeUserData(values);
+    const user = await User.findById(id);
+    const response = await user.update(data, { omitUndefined: true });
+    return response;
   },
 
   loginUser: async ({ email, password }) => {

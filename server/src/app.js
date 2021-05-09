@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { connect } from 'mongoose';
 import { createServer } from 'http';
 import socket from 'socket.io';
+import fileUpload from 'express-fileupload';
 
 import { authenticateUser } from './middlewares/socket.middleware';
 import routes from './routes';
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(express.json({ limit: '30mb' }));
 app.use(cors(CORS_SETTINGS));
 app.use(cookieParser());
+app.use(fileUpload());
 app.set('socket', io);
 
 app.use('/api', routes);

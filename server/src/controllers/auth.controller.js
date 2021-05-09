@@ -2,13 +2,16 @@ import jwt from 'jsonwebtoken';
 import StatusCodes from 'http-status-codes';
 
 import config from '../config';
-
 import authService from '../services/auth.service';
+import User from '../models/user.model';
 
 const authController = {
   signUp: async (req, res) => {
     try {
-      const user = await authService.registerUser(req.body);
+      const user = await authService.registerUser({
+        ...req.body,
+        avatar: req.files?.avatar,
+      });
 
       return res.send({ data: user, errors: [] });
     } catch (error) {
@@ -74,7 +77,23 @@ const authController = {
   },
 
   me: async (req, res) => {
-    res.send({ data: req.user, errors: [] });
+    const user = await User.findOne({ _id: req.user._id });
+    return res.send({ data: user, errors: [] });
+  },
+
+  changeProfile: async (req, res) => {
+    try {
+      const user = await authService.changeUser(req.user._id, {
+        ...req.body,
+        avatar: req.files?.avatar,
+      });
+      return res.send({ data: user, errors: [] });
+    } catch (error) {
+      return res.send({
+        data: null,
+        errors: [{ [error.param || 'global']: error.message }],
+      });
+    }
   },
 };
 

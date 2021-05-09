@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const CONFIG = {
-  baseURL: '/api/',
+  baseURL: 'http://localhost:9000/api/',
   validateStatus: (status) => status < 500,
   transformResponse: (response) => {
     const transformed = JSON.parse(response);

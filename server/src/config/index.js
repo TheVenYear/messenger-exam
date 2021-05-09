@@ -8,6 +8,7 @@ const config = cleanEnv(process.env, {
   REFRESH_EXPIRES_IN: str(),
   ACCESS_SECRET: str(),
   ACCESS_EXPIRES_IN: str(),
+  YANDEX_KEY: str(),
 });
 
 export default config;
