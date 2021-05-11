@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+export const serverURL = 'http://localhost:9000/';
 const CONFIG = {
-  baseURL: 'http://localhost:9000/api/',
+  baseURL: serverURL + 'api/',
+  withCredentials: true,
   validateStatus: (status) => status < 500,
   transformResponse: (response) => {
     const transformed = JSON.parse(response);

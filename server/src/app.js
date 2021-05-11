@@ -9,20 +9,17 @@ import fileUpload from 'express-fileupload';
 import { authenticateUser } from './middlewares/socket.middleware';
 import routes from './routes';
 import config from './config';
-
-const CORS_SETTINGS = {
-  origin: 'http://localhost:3000',
-};
+import corsSettings from './config/cors-settings';
 
 const app = express();
 const server = createServer(app);
 const io = socket(server, {
-  cors: CORS_SETTINGS,
+  cors: corsSettings,
 });
 
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(express.json({ limit: '30mb' }));
-app.use(cors(CORS_SETTINGS));
+app.use(cors(corsSettings));
 app.use(cookieParser());
 app.use(fileUpload());
 app.set('socket', io);

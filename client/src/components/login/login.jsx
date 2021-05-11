@@ -48,9 +48,6 @@ const Login = () => {
           <TextField
             error={!!form.errors.email}
             helperText={form.errors.email}
-            size="small"
-            margin="normal"
-            variant="outlined"
             value={form.values.email}
             onChange={form.handleChange}
             label="Email"
@@ -60,9 +57,6 @@ const Login = () => {
           <TextField
             error={!!form.errors.password}
             helperText={form.errors.password}
-            margin="normal"
-            size="small"
-            variant="outlined"
             value={form.values.password}
             onChange={form.handleChange}
             label="Пароль"
@@ -70,21 +64,14 @@ const Login = () => {
             type="password"
           />
           <FormControl margin="normal">
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              Отправить
-            </Button>
+            <Button type="submit">Отправить</Button>
           </FormControl>
           <FormControl>
             <Box mx="auto">
               <Link
                 style={{ textAlign: 'center' }}
                 component={NavLink}
-                to="/test"
+                to="/sign-up"
               >
                 Нет аккаунта? Создайте его прямо сейчас!
               </Link>

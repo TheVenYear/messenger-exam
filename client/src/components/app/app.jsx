@@ -39,6 +39,21 @@ const App = () => {
         },
       },
     },
+    props: {
+      MuiTextField: {
+        size: 'small',
+        variant: 'outlined',
+        color: 'primary',
+      },
+      MuiFormControl: {
+        margin: 'normal',
+      },
+      MuiButton: {
+        variant: 'contained',
+        color: 'primary',
+        size: 'small',
+      },
+    },
   });
 
   return (

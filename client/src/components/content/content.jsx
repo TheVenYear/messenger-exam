@@ -1,10 +1,12 @@
-import React from 'react';
-import Header from '../header';
 import { Box, Container } from '@material-ui/core';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Header from '../header';
+
+import Chat from '../chat';
 import Login from '../login';
 import PrivateRoute from '../private-route';
-import Chat from '../chat';
+import UserForm from '../user-form';
 
 const Content = () => {
   return (
@@ -17,6 +19,12 @@ const Content = () => {
           <Switch>
             <Route path="/sign-in">
               <Login />
+            </Route>
+            <PrivateRoute path="/update">
+              <UserForm type="update" />
+            </PrivateRoute>
+            <Route path="/sign-up">
+              <UserForm />
             </Route>
             <PrivateRoute path="/">
               <Chat />

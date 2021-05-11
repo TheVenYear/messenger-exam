@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Avatar,
@@ -5,36 +6,36 @@ import {
   CardContent,
   CardHeader,
   Typography,
-  // useTheme,
 } from '@material-ui/core';
 
-const Message = () => {
-  // const theme = useTheme();
+const Message = ({ user, message }) => {
   return (
-    <Card
-      // style={{
-      //   backgroundColor: theme.palette.background.default,
-      // }}
-      elevation={0}
-    >
+    <Card elevation={0}>
       <CardHeader
-        avatar={<Avatar aria-label="recipe">R</Avatar>}
-        title="Shrimp and Chorizo Paella"
+        avatar={<Avatar src={user.profile.avatar || '/broken-image.jpg'} />}
+        title={user.profile.nickname || user.email}
         subheader={
           <Typography style={{ fontSize: '13px' }} color="primary">
-            September 14, 2016
+            {message}
           </Typography>
         }
       />
       <CardContent>
-        <Typography>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
+        <Typography>{message}</Typography>
       </CardContent>
     </Card>
   );
+};
+
+Message.propTypes = {
+  message: PropTypes.string,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    profile: PropTypes.shape({
+      avatar: PropTypes.string,
+      nickname: PropTypes.string,
+    }),
+  }),
 };
 
 export default Message;

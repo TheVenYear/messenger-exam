@@ -1,9 +1,10 @@
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import StatusCodes from 'http-status-codes';
 
 import config from '../config';
 import authService from '../services/auth.service';
 import User from '../models/user.model';
+import RefreshToken from '../models/refresh-token.model';
 
 const authController = {
   signUp: async (req, res) => {
@@ -70,6 +71,11 @@ const authController = {
         .cookie('accessToken', token, { httpOnly: true })
         .send({ data: user || null, errors: [] });
     } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        await RefreshToken.findOneAndDelete({
+          value: req.cookies.refreshToken,
+        });
+      }
       return res
         .status(StatusCodes.UNAUTHORIZED)
         .send({ data: null, errors: [{ global: error.message }] });
