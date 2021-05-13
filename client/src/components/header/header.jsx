@@ -11,11 +11,13 @@ import {
 import React from 'react';
 import ChatIcon from '@material-ui/icons/Chat';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Media from 'react-media';
+import { logout } from '../../store/reducers/app.reducer';
 
 const Header = () => {
   const user = useSelector((state) => state.app.user);
+  const dispatch = useDispatch();
   return (
     <AppBar position="relative" color="secondary">
       <Container maxWidth="md">
@@ -36,14 +38,18 @@ const Header = () => {
 
             {user && (
               <Typography>
-                <Link color="inherit" component={NavLink} to="/">
+                <Link color="inherit" component={NavLink} to="/sign-in">
                   <Box display="flex" alignItems="center">
                     <Media queries={{ small: '(max-width: 380px)' }}>
                       {(matches) => (
                         <>
                           {!matches.small && (
-                            <Box marginRight="8px" fontWeight={500}>
-                              {user.profile.nickname || user.email}
+                            <Box
+                              onClick={() => dispatch(logout())}
+                              marginRight="8px"
+                              fontWeight={500}
+                            >
+                              Выйти
                             </Box>
                           )}
 

@@ -7,6 +7,7 @@ import {
   CardHeader,
   Typography,
 } from '@material-ui/core';
+import moment from 'moment';
 
 const Message = ({ user, message }) => {
   return (
@@ -16,12 +17,12 @@ const Message = ({ user, message }) => {
         title={user.profile.nickname || user.email}
         subheader={
           <Typography style={{ fontSize: '13px' }} color="primary">
-            {message}
+            {moment(message.postedAt).format('LLLL')}
           </Typography>
         }
       />
       <CardContent>
-        <Typography>{message}</Typography>
+        <Typography>{message.text}</Typography>
       </CardContent>
     </Card>
   );

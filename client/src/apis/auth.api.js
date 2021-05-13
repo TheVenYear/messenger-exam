@@ -1,4 +1,4 @@
-import instance from './index';
+import instance from '.';
 
 export const fetchSignIn = async (data) => {
   const response = await instance.post('auth/sign-in', data);
@@ -19,5 +19,15 @@ export const refresh = async () => {
 
 export const me = async () => {
   const response = await instance.get('auth/me');
+  return response.data;
+};
+
+export const fetchChangeProfile = async () => {
+  const response = await instance.post('auth/change-profile', {});
+  return response.data;
+};
+
+export const fetchLogout = async () => {
+  const response = await instance.post('auth/logout');
   return response.data;
 };

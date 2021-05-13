@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import { BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import 'moment/locale/ru';
+import moment from 'moment';
 
 import { initializeApp } from '../../store/reducers/app.reducer';
 import Content from '../content';
@@ -55,6 +57,7 @@ const App = () => {
       },
     },
   });
+  moment.locale('ru');
 
   return (
     <ThemeProvider theme={theme}>

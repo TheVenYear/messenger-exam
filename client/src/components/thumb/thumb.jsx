@@ -6,7 +6,8 @@ const Thumb = ({ image, ...props }) => {
   const [src, setSrc] = useState(null);
 
   useEffect(() => {
-    if (!image) {
+    if (!(image instanceof Blob)) {
+      setSrc(image);
       return;
     }
 

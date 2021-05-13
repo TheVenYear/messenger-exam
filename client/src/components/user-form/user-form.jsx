@@ -14,13 +14,15 @@ import * as yup from 'yup';
 import InputMask from 'react-input-mask';
 
 import Thumb from '../thumb';
-import { fetchSignUp } from '../../apis/auth.api';
 
-const UserForm = ({ type = 'register' }) => {
+const UserForm = ({
+  initialValues = {
+    avatar: null,
+  },
+  onFinish,
+}) => {
   const form = useFormik({
-    initialValues: {
-      avatar: null,
-    },
+    initialValues: initialValues,
     validationSchema: yup.object({
       avatar: yup.mixed(),
       email: yup
@@ -37,10 +39,9 @@ const UserForm = ({ type = 'register' }) => {
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      fetchSignUp(formData);
+      onFinish(formData);
     },
   });
-  console.log(type);
   return (
     <Container maxWidth="xs">
       <Typography variant="h5">Создайте свой аккаунт</Typography>
@@ -122,11 +123,16 @@ const UserForm = ({ type = 'register' }) => {
 };
 
 UserForm.propTypes = {
-  type: PropTypes.oneOf(['register', 'update']),
+  initialValues: PropTypes.shape({
+    avatar: PropTypes.any,
+  }),
+  onFinish: PropTypes.func,
 };
 
 UserForm.defaultProps = {
-  type: 'register',
+  initialValues: {
+    avatar: null,
+  },
 };
 
 export default UserForm;

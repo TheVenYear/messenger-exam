@@ -27,8 +27,8 @@ authRouter.post(
 
 authRouter.post(
   '/change-profile',
-  authenticate,
   validate(authValidation.updateUser),
+  authenticate,
   authController.changeProfile
 );
 

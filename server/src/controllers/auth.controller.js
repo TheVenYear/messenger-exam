@@ -57,7 +57,7 @@ const authController = {
 
   logout: async (req, res) => {
     authService.deleteRefresh(req.cookies.refreshToken);
-    return res.cookie('accessToken', '').sendStatus(StatusCodes.OK);
+    return res.cookie('accessToken', '').send({ data: null, errors: [] });
   },
 
   refresh: async (req, res) => {

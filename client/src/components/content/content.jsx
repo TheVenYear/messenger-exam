@@ -1,14 +1,17 @@
 import { Box, Container } from '@material-ui/core';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from '../header';
 
 import Chat from '../chat';
 import Login from '../login';
 import PrivateRoute from '../private-route';
 import UserForm from '../user-form';
+import { fetchSignUp } from '../../apis/auth.api';
+import ChangeUser from '../change-user';
 
 const Content = () => {
+  const history = useHistory();
   return (
     <Box display="flex" flexDirection="column" height="100vh">
       <Box>
@@ -24,8 +27,16 @@ const Content = () => {
               <UserForm type="update" />
             </PrivateRoute>
             <Route path="/sign-up">
-              <UserForm />
+              <UserForm
+                onFinish={(data) => {
+                  fetchSignUp(data);
+                  history.push('/');
+                }}
+              />
             </Route>
+            <PrivateRoute path="/change-profile">
+              <ChangeUser />
+            </PrivateRoute>
             <PrivateRoute path="/">
               <Chat />
             </PrivateRoute>

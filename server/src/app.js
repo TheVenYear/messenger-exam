@@ -17,8 +17,10 @@ const io = socket(server, {
   cors: corsSettings,
 });
 
-app.use(express.urlencoded({ limit: '30mb', extended: true }));
-app.use(express.json({ limit: '30mb' }));
+app.options('*', cors(corsSettings));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors(corsSettings));
 app.use(cookieParser());
 app.use(fileUpload());

@@ -1,5 +1,5 @@
 import { setInterceptor } from '../../apis';
-import { me } from '../../apis/auth.api';
+import { fetchChangeProfile, fetchLogout, me } from '../../apis/auth.api';
 
 const SET_USER = 'app/user/SET';
 const SET_IS_INITIALIZED = 'app/isInitialized/SET';
@@ -41,4 +41,25 @@ export const initializeApp = () => async (dispatch) => {
 
   dispatch(setUser(response.data));
   dispatch(setIsInitialized(true));
+};
+
+export const changeProfile = (data) => async (dispatch) => {
+  const response = await fetchChangeProfile(data);
+  if (!response.data.errors.length) {
+    return;
+  }
+
+  const meResponse = await me();
+  if (!meResponse.data) {
+    return;
+  }
+  dispatch(setUser(meResponse.data));
+};
+
+export const logout = () => async (dispatch) => {
+  const response = await fetchLogout();
+  if (response.errors.length) {
+    return;
+  }
+  dispatch(setUser(null));
 };

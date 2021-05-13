@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export const serverURL = 'http://localhost:9000/';
-const CONFIG = {
+//'http://localhost:9000/'
+export const serverURL = '';
+export const CONFIG = {
   baseURL: serverURL + 'api/',
   withCredentials: true,
   validateStatus: (status) => status < 500,
