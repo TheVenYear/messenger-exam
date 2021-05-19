@@ -4,8 +4,10 @@
   "description": "",
   "scripts": {
     "start:dev": "concurrently \"cd server && yarn run start:dev\" \"cd client && yarn run start\"",
-    "build": "concurrently \"cd server && yarn install && yarn run build\" \"cd client yarn install && yarn run build\"",
-    "start": "server/build/app"
+    "build": "concurrently \"cd server && yarn run build\" \"cd client && yarn run build\"",
+    "install": "(cd client && yarn) && (cd server && yarn)",
+    "heroku-postbuild": "yarn build",
+    "start": "cd server && yarn run start"
   },
   "keywords": [],
   "author": "",
