@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-//'http://localhost:9000/'
 export const serverURL = '';
 export const CONFIG = {
   baseURL: serverURL + 'api/',

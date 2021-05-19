@@ -22,8 +22,10 @@ export const me = async () => {
   return response.data;
 };
 
-export const fetchChangeProfile = async () => {
-  const response = await instance.post('auth/change-profile', {});
+export const fetchChangeProfile = async (formData) => {
+  const response = await instance.post('auth/change-profile', formData, {
+    headers: { 'content-type': 'multipart/form-data' },
+  });
   return response.data;
 };
 

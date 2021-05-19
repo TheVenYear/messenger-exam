@@ -9,6 +9,7 @@ const config = cleanEnv(process.env, {
   ACCESS_SECRET: str(),
   ACCESS_EXPIRES_IN: str(),
   YANDEX_KEY: str(),
+  NODE_ENV: str({ default: 'development' }),
 });
 
 export default config;

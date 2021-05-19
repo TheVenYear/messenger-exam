@@ -5,6 +5,7 @@ import { connect } from 'mongoose';
 import { createServer } from 'http';
 import socket from 'socket.io';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 
 import { authenticateUser } from './middlewares/socket.middleware';
 import routes from './routes';
@@ -28,6 +29,14 @@ app.set('socket', io);
 
 app.use('/api', routes);
 
+if (config.NODE_ENV === 'production') {
+  app.use(
+    '/',
+    express.static(path.resolve(__dirname, '../../client/build'), {
+      index: 'index.html',
+    })
+  );
+}
 io.use(authenticateUser);
 
 io.on('connection', (socket) => {

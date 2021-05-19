@@ -45,7 +45,7 @@ export const initializeApp = () => async (dispatch) => {
 
 export const changeProfile = (data) => async (dispatch) => {
   const response = await fetchChangeProfile(data);
-  if (!response.data.errors.length) {
+  if (!response.errors.length) {
     return;
   }
 

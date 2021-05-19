@@ -10,30 +10,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import InputMask from 'react-input-mask';
 
 import Thumb from '../thumb';
 
-const UserForm = ({
-  initialValues = {
-    avatar: null,
-  },
-  onFinish,
-}) => {
+const UserForm = ({ helperValues, onFinish, validationSchema }) => {
   const form = useFormik({
-    initialValues: initialValues,
-    validationSchema: yup.object({
-      avatar: yup.mixed(),
-      email: yup
-        .string()
-        .email('Некорректный email')
-        .required('Email обязательное поле'),
-      password: yup
-        .string()
-        .min(10, 'Пароль должен содержать минимум 10 символов')
-        .required('Пароль обязательное поле'),
-    }),
+    validationSchema,
     onSubmit: (values) => {
       let formData = new FormData();
       for (const key in values) {
@@ -41,6 +24,7 @@ const UserForm = ({
       }
       onFinish(formData);
     },
+    initialValues: {},
   });
   return (
     <Container maxWidth="xs">
@@ -53,6 +37,7 @@ const UserForm = ({
             helperText={form.errors.email}
             value={form.values.email}
             name="email"
+            placeholder={helperValues?.email}
             label="Email"
           />
           <TextField
@@ -68,6 +53,7 @@ const UserForm = ({
             onChange={form.handleChange}
             value={form.values.nickname}
             name="nickname"
+            placeholder={helperValues?.nickname}
             label="Прозвище"
           />
           <InputMask
@@ -75,6 +61,7 @@ const UserForm = ({
             mask="+7 (999) 999 99 99"
             value={form.values.phone}
             name="phone"
+            placeholder={helperValues?.phone}
             label="Номер телефона"
             maskChar=""
           >
@@ -123,10 +110,17 @@ const UserForm = ({
 };
 
 UserForm.propTypes = {
+  avatar: PropTypes.any,
+  helperValues: PropTypes.shape({
+    email: PropTypes.any,
+    nickname: PropTypes.any,
+    phone: PropTypes.any,
+  }),
   initialValues: PropTypes.shape({
     avatar: PropTypes.any,
   }),
   onFinish: PropTypes.func,
+  validationSchema: PropTypes.any,
 };
 
 UserForm.defaultProps = {

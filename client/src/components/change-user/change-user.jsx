@@ -24,7 +24,7 @@ const ChangeUser = () => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={dispatch(logout())}
+          onClick={() => dispatch(logout())}
         >
           Выйти из аккаунта
         </Button>
