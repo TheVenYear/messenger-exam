@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start:dev": "concurrently \"cd server && yarn run start:dev\" \"cd client && yarn run start\"",
-    "build": "concurrently \"cd server && yarn run build\" \"cd client && yarn run build\"",
+    "build": "concurrently \"cd server && yarn install && yarn run build\" \"cd client yarn install && yarn run build\"",
     "start": "server/build/app"
   },
   "keywords": [],
