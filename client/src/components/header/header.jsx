@@ -7,19 +7,20 @@ import {
   Link,
   Toolbar,
   Typography,
+  useTheme,
 } from '@material-ui/core';
 import React from 'react';
 import ChatIcon from '@material-ui/icons/Chat';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Media from 'react-media';
 import { logout } from '../../store/reducers/app.reducer';
 
 const Header = () => {
   const user = useSelector((state) => state.app.user);
   const dispatch = useDispatch();
+  const theme = useTheme();
   return (
-    <AppBar position="relative" color="secondary">
+    <AppBar color="secondary">
       <Container maxWidth="md">
         <Toolbar disableGutters variant="dense">
           <Box display="flex" width="100%" justifyContent="space-between">
@@ -37,33 +38,23 @@ const Header = () => {
             </Box>
 
             {user && (
-              <Typography>
-                <Link color="inherit" component={NavLink} to="/sign-in">
-                  <Box display="flex" alignItems="center">
-                    <Media queries={{ small: '(max-width: 380px)' }}>
-                      {(matches) => (
-                        <>
-                          {!matches.small && (
-                            <Box
-                              onClick={() => dispatch(logout())}
-                              marginRight="8px"
-                              fontWeight={500}
-                            >
-                              Выйти
-                            </Box>
-                          )}
-
-                          <Avatar
-                            src={user.profile.avatar}
-                            alt="User avatar"
-                            style={{ width: '30px', height: '30px' }}
-                          />
-                        </>
-                      )}
-                    </Media>
+              <Link color={theme.palette.background.default}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  onClick={() => dispatch(logout())}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Box marginRight="8px" fontWeight={500}>
+                    Выйти
                   </Box>
-                </Link>
-              </Typography>
+                  <Avatar
+                    src={user.profile.avatar}
+                    alt="User avatar"
+                    style={{ width: '30px', height: '30px' }}
+                  />
+                </Box>
+              </Link>
             )}
           </Box>
         </Toolbar>

@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Avatar,
   Card,
+  CardActionArea,
   CardContent,
   CardHeader,
   Typography,
@@ -12,18 +13,25 @@ import moment from 'moment';
 const Message = ({ user, message }) => {
   return (
     <Card elevation={0}>
-      <CardHeader
-        avatar={<Avatar src={user.profile.avatar || '/broken-image.jpg'} />}
-        title={user.profile.nickname || user.email}
-        subheader={
-          <Typography style={{ fontSize: '13px' }} color="primary">
-            {moment(message.postedAt).format('LLLL')}
+      <CardActionArea>
+        <CardHeader
+          avatar={<Avatar src={user.profile.avatar || '/broken-image.jpg'} />}
+          title={user.profile.nickname || user.email}
+          subheader={
+            <Typography
+              style={{ fontSize: '13px', wordWrap: 'break-word' }}
+              color="primary"
+            >
+              {moment(message.postedAt).format('LLLL')}
+            </Typography>
+          }
+        />
+        <CardContent>
+          <Typography component="div" style={{ wordWrap: 'break-word' }}>
+            {message.text}
           </Typography>
-        }
-      />
-      <CardContent>
-        <Typography>{message.text}</Typography>
-      </CardContent>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

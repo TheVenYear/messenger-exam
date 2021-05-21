@@ -45,6 +45,10 @@ io.on('connection', (socket) => {
     socket.disconnect();
     return;
   }
+  socket.on('disconnect', () => {
+    io.emit('user-leave', socket.user);
+  });
+  io.emit('connection', socket.user);
 });
 
 connect(config.DATABASE_URL, {

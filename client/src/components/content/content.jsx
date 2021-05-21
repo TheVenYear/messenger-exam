@@ -12,12 +12,10 @@ import SignUpUser from '../sign-up-user/sign-up-user';
 
 const Content = () => {
   return (
-    <Box display="flex" flexDirection="column" height="100vh">
-      <Box>
-        <Header />
-      </Box>
-      <Box height="100%" display="flex" mt={2} mb={1}>
-        <Container maxWidth="md">
+    <>
+      <Header />
+      <Box height="calc(100vh - 70px)" marginTop="60px" mb="10px">
+        <Container style={{ height: 'inherit' }} maxWidth="md">
           <Switch>
             <Route path="/sign-in">
               <Login />
@@ -37,7 +35,7 @@ const Content = () => {
           </Switch>
         </Container>
       </Box>
-    </Box>
+    </>
   );
 };
 
