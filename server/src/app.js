@@ -23,7 +23,6 @@ app.use(
   '/preview',
   createProxyMiddleware({
     target: 'https://downloader.disk.yandex.ru/preview',
-    changeOrigin: true,
     headers: {
       Authorization: `OAuth ${config.YANDEX_KEY}`,
     },
