@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connect } from 'mongoose';
 import { createServer } from 'http';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import socket from 'socket.io';
 import fileUpload from 'express-fileupload';
 import path from 'path';
@@ -17,6 +18,17 @@ const server = createServer(app);
 const io = socket(server, {
   cors: corsSettings,
 });
+
+app.use(
+  '/preview',
+  createProxyMiddleware({
+    target: 'https://downloader.disk.yandex.ru/preview',
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/preview`]: '',
+    },
+  })
+);
 
 app.options('*', cors(corsSettings));
 

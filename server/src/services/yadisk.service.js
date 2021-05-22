@@ -53,7 +53,7 @@ const yadiskService = {
 
     previewUrl.search = searchParams.toString();
 
-    return previewUrl;
+    return previewUrl.pathname + previewUrl.search;
   },
 };
 
