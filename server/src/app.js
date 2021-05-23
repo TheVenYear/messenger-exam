@@ -19,21 +19,21 @@ const io = socket(server, {
   cors: corsSettings,
 });
 
-app.use(
-  '/preview',
-  createProxyMiddleware({
-    target: 'https://downloader.disk.yandex.ru/preview',
-    headers: {
-      Authorization: `OAuth ${config.YANDEX_KEY}`,
-    },
-    pathRewrite: {
-      [`^/preview`]: '',
-    },
-    secure: true,
-    changeOrigin: true,
-    cookieDomainRewrite: 'localhost:9000',
-  })
-);
+// app.use(
+//   '/preview',
+//   createProxyMiddleware({
+//     target: 'https://downloader.disk.yandex.ru/preview',
+//     headers: {
+//       Authorization: `OAuth ${config.YANDEX_KEY}`,
+//     },
+//     pathRewrite: {
+//       [`^/preview`]: '',
+//     },
+//     secure: true,
+//     changeOrigin: true,
+//     cookieDomainRewrite: 'localhost:9000',
+//   })
+// );
 
 app.options('*', cors(corsSettings));
 
@@ -67,6 +67,18 @@ io.on('connection', (socket) => {
   });
   io.emit('connection', socket.user);
 });
+
+app.use(
+  '/media',
+  createProxyMiddleware({
+    target: 'https://webdav.yandex.ru:443/api',
+    headers: {
+      Authorization: `OAuth ${config.YANDEX_KEY}`,
+    },
+    pathRewrite: { '^/media': '' },
+    changeOrigin: true,
+  })
+);
 
 connect(config.DATABASE_URL, {
   useNewUrlParser: true,
