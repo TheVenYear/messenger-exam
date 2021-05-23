@@ -29,6 +29,9 @@ app.use(
     pathRewrite: {
       [`^/preview`]: '',
     },
+    secure: true,
+    changeOrigin: true,
+    cookieDomainRewrite: 'localhost:9000',
   })
 );
 

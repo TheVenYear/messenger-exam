@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-export const serverURL = '';
+export const serverURL =
+  (process.env.NODE_ENV === 'production' &&
+    'https://thevenyear.github.io/messenger-exam/') ||
+  '';
 export const CONFIG = {
   baseURL: serverURL + 'api/',
   withCredentials: true,
