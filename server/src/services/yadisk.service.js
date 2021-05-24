@@ -1,27 +1,24 @@
 import axios from 'axios';
 import config from '../config';
 
+const instance = axios.create({
+  headers: {
+    Authorization: `OAuth ${config.YANDEX_KEY}`,
+  },
+  baseURL: 'https://webdav.yandex.ru:443/api/',
+});
+
 const yadiskService = {
   upload: async (file) => {
     const fileName = Date.now() + file.name;
-
-    const instance = axios.create({
-      headers: {
-        Authorization: `OAuth ${config.YANDEX_KEY}`,
-      },
+    await instance.put(fileName, file.data);
+    return `/api/media/${fileName}`;
+  },
+  get: async (fileName) => {
+    const response = await instance.get(fileName, {
+      responseType: 'arraybuffer',
     });
-
-    const loadUrl = (
-      await instance.get(
-        `https://cloud-api.yandex.net/v1/disk/resources/upload?path=%2Fapi%2F${encodeURIComponent(
-          fileName
-        )}`
-      )
-    ).data.href;
-
-    await instance.put(loadUrl, file.data);
-
-    return `media/${fileName}`;
+    return response;
   },
 };
 

@@ -14,7 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.0.2",
-    "react-input-mask": "^2.0.4",
-    "react-media": "^1.10.0"
+    "rimraf": "^3.0.2"
   }
 }
