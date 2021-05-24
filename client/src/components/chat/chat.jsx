@@ -31,8 +31,9 @@ const Chat = () => {
     validationSchema: yup.object({
       message: yup.string().required(),
     }),
-    onSubmit: ({ message }) => {
+    onSubmit: ({ message }, { resetForm }) => {
       sendMessage(message);
+      resetForm();
     },
   });
 

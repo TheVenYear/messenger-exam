@@ -14,7 +14,12 @@ import InputMask from 'react-input-mask';
 
 import Thumb from '../thumb';
 
-const UserForm = ({ helperValues, onFinish, validationSchema }) => {
+const UserForm = ({
+  helperValues,
+  onFinish,
+  validationSchema,
+  initialValues,
+}) => {
   const form = useFormik({
     validationSchema,
     onSubmit: (values) => {
@@ -24,7 +29,7 @@ const UserForm = ({ helperValues, onFinish, validationSchema }) => {
       }
       onFinish(formData);
     },
-    initialValues: {},
+    initialValues: initialValues || {},
   });
   return (
     <Container maxWidth="xs">
