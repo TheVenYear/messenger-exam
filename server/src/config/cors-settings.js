@@ -1,6 +1,22 @@
+import config from '.';
+
+const whitelist = [
+  'http://localhost:3000',
+  config.NODE_ENV === 'production'
+    ? config.HOST
+    : `http://localhost:${config.PORT}`,
+];
+
 const corsSettings = {
-  origin: 'http://localhost:3000/',
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Заблокировано политикой CORS'));
+    }
+  },
   credentials: true,
+  preflightContinue: true,
 };
 
 export default corsSettings;
