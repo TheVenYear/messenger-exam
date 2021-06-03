@@ -32,7 +32,7 @@ const authService = {
     const existingUser = await User.findOne({ email: values.email });
 
     if (existingUser) {
-      const error = new Error('email is already exists');
+      const error = new Error('Такой email уже существует');
       error.param = 'email';
       throw error;
     }
@@ -60,7 +60,7 @@ const authService = {
   },
 
   loginUser: async ({ email, password }) => {
-    const MESSAGE = 'email or password are incorrect';
+    const MESSAGE = 'Неверный email или пароль';
     const user = await User.findOne({ email });
 
     if (!user) {
