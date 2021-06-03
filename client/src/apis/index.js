@@ -3,7 +3,7 @@ import axios from 'axios';
 export const serverURL =
   process.env.NODE_ENV === 'production'
     ? 'https://messenger-exam.herokuapp.com/'
-    : '/';
+    : 'http://localhost:9000/';
 export const CONFIG = {
   baseURL: serverURL + 'api/',
   withCredentials: true,

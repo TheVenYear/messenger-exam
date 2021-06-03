@@ -1,11 +1,9 @@
 import config from '.';
 
-const whitelist = [
-  'http://localhost:3000',
+const whitelist =
   config.NODE_ENV === 'production'
-    ? config.HOST
-    : `http://localhost:${config.PORT}`,
-];
+    ? [config.HOST]
+    : ['http://localhost:3000', `http://localhost:${config.PORT}`];
 
 const corsSettings = {
   origin: (origin, callback) => {

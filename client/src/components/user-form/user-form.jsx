@@ -22,12 +22,12 @@ const UserForm = ({
 }) => {
   const form = useFormik({
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { setErrors }) => {
       let formData = new FormData();
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      onFinish(formData);
+      onFinish(formData, setErrors);
     },
     initialValues: initialValues || {},
   });

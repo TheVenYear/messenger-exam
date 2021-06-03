@@ -22,8 +22,12 @@ const SignUpUser = () => {
   return (
     <UserForm
       validationSchema={validationSchema}
-      onFinish={(data) => {
-        fetchSignUp(data);
+      onFinish={async (data, setErrors) => {
+        const response = await fetchSignUp(data);
+        if (response.errors) {
+          setErrors(response.errors);
+          return;
+        }
         history.push('/');
       }}
     />
