@@ -27,16 +27,17 @@ app.use(cookieParser());
 app.use(fileUpload());
 app.set('socket', io);
 
+app.use('/api', routes);
+
 if (config.NODE_ENV === 'production') {
   app.use(
-    '*',
-    express.static(path.resolve(__dirname, '../../client/build'), {
-      index: 'index.html',
-    })
+    '/static',
+    express.static(path.join(__dirname, '../../client/build/static'))
   );
+  app.get('*', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  });
 }
-
-app.use('/api', routes);
 io.use(authenticateUser);
 
 io.on('connection', (socket) => {
