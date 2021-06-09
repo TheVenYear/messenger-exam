@@ -19,7 +19,7 @@ import Content from '../content';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    setTimeout(() => dispatch(initializeApp()), 2000);
+    dispatch(initializeApp());
   }, []);
 
   const isInitialized = useSelector((state) => state.app.isInitialized);
