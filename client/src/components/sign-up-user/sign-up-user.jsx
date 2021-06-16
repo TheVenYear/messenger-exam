@@ -24,7 +24,8 @@ const SignUpUser = () => {
       validationSchema={validationSchema}
       onFinish={async (data, setErrors) => {
         const response = await fetchSignUp(data);
-        if (response.errors.length) {
+        console.log(response.errors);
+        if (response.errors.email) {
           setErrors(response.errors);
           return;
         }

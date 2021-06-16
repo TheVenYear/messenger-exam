@@ -5,7 +5,7 @@ console.log(config.NODE_ENV);
 const whitelist =
   config.NODE_ENV === 'production'
     ? [config.HOST]
-    : [`http://localhost:${config.PORT}`];
+    : [`http://localhost:${config.PORT}/`];
 
 const corsSettings = {
   origin: (origin, callback) => {
